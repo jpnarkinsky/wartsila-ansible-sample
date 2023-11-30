@@ -2,6 +2,64 @@
 
 Sample Ansible Role with Molecule
 
+# MEME Server
+
+This ansible role will starts an nginx server that serves a meme.  
+Whether the meme is funny will be left as an exercise for the observer.
+
+The ansible role/playbook assumes that the docker server, etc. will be running 
+on the local machine, therefore there's no inventory.  The role I've created
+will create a systemd service called `docker.nginx` and start said service. The 
+service is created using a dockerfile (in templates/docker) and alters the 
+"official" docker nginx image with a custom html page that displays a meme.  
+
+## Disclaimers
+
+Frankly, it's been about 5 years since I used Ansible at all, and I've
+never used `molecule`. My intention had been to bring myself up to speed, 
+but due to another offer that is demanding a swift decision I decided
+it was better to get this in, even though it's not really complete, 
+hoping for the best.  I will continue to work on enhancing it further 
+if there's still interest.
+
+In part, this is necessary because it seems like molecule (running in a docker)
+doesn't like the way I laid out the project, and can't handle me expecting to 
+make changes to the **local** systemd.  I just don't have time to figure 
+all that out now that I'm on such a short timeline.
+
+## Prerequisites
+
+1. A linux-ish system with Docker installed and configured in systemd.  Also, needs to have a reasonably modern version of Python installed.
+
+2. Install dependencies and setup a venv:
+
+```
+python -m venv venv
+. venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
+```
+
+~~3. Run unit tests~~
+
+>
+ [!WARNING] these don't work.
+```
+molecule test
+```
+
+## Instructions
+
+```
+# In the repository root
+ansible-playbook main.yaml
+```
+
+####### ORIGINAL README FOLLOWS ########
+
+### Instructions
+
+
 ## Requirements
 
 Setup Ansible with pip.
@@ -53,20 +111,20 @@ The instructions for the homework assignment are as follows:
   a. good commit 
   b. message atomic commits
 2. [X] Download and save the attached file contents to your repo
-3. [ ] Write an Ansible role and playbook using this role to
+3. [X] Write an Ansible role and playbook using this role to
   a. Deploy an nginx docker image 
   b. Configure this container to run as a systemd service that will run when the system boots
-4. [ ] Write a readme with instructions on how to start the box and deploy the service
-5. [ ] Commit and push all required files to your repo and send us the URL to your repo. 
+4. [X] Write a readme with instructions on how to start the box and deploy the service
+5. [X] Commit and push all required files to your repo and send us the URL to your repo. 
 
 We should be able to clone the repo and run molecule converge (will run the Ansible role) to start the environment. 
 
 ### Bonus points for 
 
-* [ ] Good readme
+* [X] Good readme
 * [ ] Unit/integration tests (molecule)
-* [ ] Security features
-* [ ] Funny memes
+* [X] Security features
+* [X] Funny memes
 
 Please review the instructions and feel free to reach out with any questions.   
 
