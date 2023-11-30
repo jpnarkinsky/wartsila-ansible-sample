@@ -1,0 +1,42 @@
+- name: Make sure docker engine is running
+  ansible.builtin.systemd_service:
+    state: started
+    name: docker.socket
+
+- name: Disable the service if it exists
+  ansible.builtin.systemd:
+    name: "{{ local_nginx_docker_service_name }}"
+    state: stopped
+    enabled: no
+  ignore_errors: true # This is necessary in case the service doesn't exist
+
+- name: Build an image and push it to a private repo
+  community.docker.docker_image:
+    build:
+      path: "{{ role_path }}/templates/docker"
+    name: sample-nginx
+    source: build
+
+- name: Create the docker.nginx.service file
+  vars:
+    image: "sample-nginx"
+    description: "{{ local_nginx_docker_service_description }}"
+    name: "{{ local_nginx_docker_service_name }}"
+    port: "{{ local_nginx_docker_nginx_port }}"
+    index_html_path: "{{ role_path }}/templates/html"
+  ansible.builtin.template:
+    src: docker.nginx.service.j2
+    dest: "/etc/systemd/system/{{ local_nginx_docker_service_name }}.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: start the service
+  ansible.builtin.systemd:
+    name: "{{ local_nginx_docker_service_name }}"
+    state: started
+    enabled: yes
