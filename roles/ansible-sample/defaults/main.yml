@@ -1,0 +1,10 @@
+---
+# The name of the systemd service
+ansible_sample_service_name: "docker.nginx"
+
+# A description of the service
+ansible_sample_service_description: "A docker container running nginx"
+
+# Port to listen to
+ansible_sample_nginx_port: "9090"
+

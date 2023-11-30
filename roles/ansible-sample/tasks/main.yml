@@ -5,7 +5,7 @@
 
 - name: Disable the service if it exists
   ansible.builtin.systemd:
-    name: "{{ local_nginx_docker_service_name }}"
+    name: "{{ ansible_sample_service_name }}"
     state: stopped
     enabled: no
   ignore_errors: true # This is necessary in case the service doesn't exist
@@ -20,13 +20,13 @@
 - name: Create the docker.nginx.service file
   vars:
     image: "sample-nginx"
-    description: "{{ local_nginx_docker_service_description }}"
-    name: "{{ local_nginx_docker_service_name }}"
-    port: "{{ local_nginx_docker_nginx_port }}"
+    description: "{{ ansible_sample_service_description }}"
+    name: "{{ ansible_sample_service_name }}"
+    port: "{{ ansible_sample_nginx_port }}"
     index_html_path: "{{ role_path }}/templates/html"
   ansible.builtin.template:
     src: docker.nginx.service.j2
-    dest: "/etc/systemd/system/{{ local_nginx_docker_service_name }}.service"
+    dest: "/etc/systemd/system/{{ ansible_sample_service_name }}.service"
     owner: root
     group: root
     mode: 0644
@@ -37,6 +37,6 @@
 
 - name: start the service
   ansible.builtin.systemd:
-    name: "{{ local_nginx_docker_service_name }}"
+    name: "{{ ansible_sample_service_name }}"
     state: started
     enabled: yes

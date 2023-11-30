@@ -4,4 +4,4 @@
   hosts: localhost
   become: true
   roles: 
-    - local_nginx_docker
+    - ansible-sample
