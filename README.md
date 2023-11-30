@@ -1,8 +1,4 @@
-# Sample
-
-Sample Ansible Role with Molecule
-
-# MEME Server
+# MEME Server (Wartsila coding sample)
 
 This ansible role will starts an nginx server that serves a meme.  
 Whether the meme is funny will be left as an exercise for the observer.
