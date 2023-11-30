@@ -6,7 +6,7 @@ Requires=docker.service
 [Service]
 TimeoutStartSec=0
 Restart=always
-ExecStartPre=-/usr/bin/docker rm -f docker.nginx
+ExecStartPre=-/usr/bin/docker rm -f  {{ name }}
 ExecStart=/usr/bin/docker run  -p {{ port }}:80 -d --rm --name {{ name }}  {{ image }}
 [Install]
 WantedBy=default.target
